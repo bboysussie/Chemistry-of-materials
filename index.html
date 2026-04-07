@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>素材の化学 — まとめ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --surface2: #1e2334;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8eaf0;
+    --muted: #7a7f94;
+    --metal: #60a5fa;
+    --metal-bg: rgba(96,165,250,0.08);
+    --stone: #86efac;
+    --stone-bg: rgba(134,239,172,0.08);
+    --glass: #fbbf24;
+    --glass-bg: rgba(251,191,36,0.08);
+    --plastic: #f472b6;
+    --plastic-bg: rgba(244,114,182,0.08);
+    --diamond: #a78bfa;
+    --diamond-bg: rgba(167,139,250,0.08);
+    --graphite: #94a3b8;
+    --graphite-bg: rgba(148,163,184,0.08);
+    --hydrogen: #38bdf8;
+    --hydrogen-bg: rgba(56,189,248,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  header {
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    max-width: 480px;
+  }
+
+  /* Nav tabs */
+  .tabs {
+    display: flex;
+    gap: 0.25rem;
+    padding: 1rem 2rem 0;
+    max-width: 860px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  .tab {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 0.4rem 0.9rem;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+  .tab:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+  .tab.active { background: var(--surface2); color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+  /* Main content */
+  main { max-width: 860px; margin: 0 auto; padding: 1.5rem 2rem 4rem; }
+
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+  /* Section heading */
+  .section-title {
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Material cards grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    transition: border-color 0.15s;
+  }
+  .card:hover { border-color: rgba(255,255,255,0.15); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .card-name { font-size: 15px; font-weight: 700; }
+  .card-formula {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+  .card-bond {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+  .card-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 0.75rem; }
+  .card-props { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .prop {
+    font-size: 10px;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* Colors per material */
+  .metal .dot { background: var(--metal); }
+  .metal .card-name { color: var(--metal); }
+  .metal .card-bond { background: var(--metal-bg); color: var(--metal); }
+
+  .stone .dot { background: var(--stone); }
+  .stone .card-name { color: var(--stone); }
+  .stone .card-bond { background: var(--stone-bg); color: var(--stone); }
+
+  .glass .dot { background: var(--glass); }
+  .glass .card-name { color: var(--glass); }
+  .glass .card-bond { background: var(--glass-bg); color: var(--glass); }
+
+  .plastic .dot { background: var(--plastic); }
+  .plastic .card-name { color: var(--plastic); }
+  .plastic .card-bond { background: var(--plastic-bg); color: var(--plastic); }
+
+  .diamond .dot { background: var(--diamond); }
+  .diamond .card-name { color: var(--diamond); }
+  .diamond .card-bond { background: var(--diamond-bg); color: var(--diamond); }
+
+  .graphite .dot { background: var(--graphite); }
+  .graphite .card-name { color: var(--graphite); }
+  .graphite .card-bond { background: var(--graphite-bg); color: var(--graphite); }
+
+  /* Axis map */
+  .axis-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  .axis-title { font-size: 11px; color: var(--muted); font-family: 'Space Mono', monospace; margin-bottom: 1rem; letter-spacing: 0.08em; }
+  .axis-svg { width: 100%; overflow: visible; }
+
+  /* Table */
+  .table-wrap { overflow-x: auto; margin-bottom: 2rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-align: left;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+  }
+  td {
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    margin: 1px;
+  }
+
+  /* Insight blocks */
+  .insight {
+    background: var(--surface);
+    border-left: 3px solid;
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .insight strong { font-weight: 700; display: block; margin-bottom: 0.25rem; }
+
+  /* Electron section */
+  .electron-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  @media (max-width: 520px) { .electron-grid { grid-template-columns: 1fr; } }
+
+  .e-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  .e-title { font-size: 13px; font-weight: 700; margin-bottom: 0.5rem; }
+  .e-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .e-bar { height: 4px; border-radius: 2px; margin: 0.75rem 0 0.5rem; }
+  .e-label { font-size: 10px; font-family: 'Space Mono', monospace; color: var(--muted); }
+
+  /* H special section */
+  .h-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 1rem; }
+  .h-table th { font-size: 10px; font-family: 'Space Mono', monospace; color: var(--muted); padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); text-align: left; text-transform: uppercase; letter-spacing: 0.08em; }
+  .h-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); }
+  .h-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Chemistry Summary</div>
+  <h1>素材の化学</h1>
+  <p class="subtitle">電子の自由度と構造の規則性が、あらゆる素材の性質を決める。</p>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('materials', this)">素材カード</button>
+  <button class="tab" onclick="show('table', this)">一覧表</button>
+  <button class="tab" onclick="show('electrons', this)">電子と金属</button>
+  <button class="tab" onclick="show('hydrogen', this)">水素・金属水素</button>
+  <button class="tab" onclick="show('insight', this)">核心の原理</button>
+</div>
+
+<main>
+
+<!-- ① 素材カード -->
+<div class="section active" id="materials">
+  <div class="section-title">素材ごとの化学的特徴</div>
+  <div class="grid">
+
+    <div class="card metal">
+      <div class="card-header"><div class="dot"></div><div class="card-name">金属</div></div>
+      <div class="card-formula">Fe, Al, Cu, Au, Na, Li …</div>
+      <div class="card-bond">金属結合</div>
+      <div class="card-desc">陽イオンが規則的に並び、価電子が「自由電子の海」として全体に広がる。電子が動けるから電気・熱を通す。</div>
+      <div class="card-props">
+        <span class="prop">電気を通す</span>
+        <span class="prop">光沢あり</span>
+        <span class="prop">延性・展性</span>
+        <span class="prop">熱を通す</span>
+      </div>
+    </div>
+
+    <div class="card stone">
+      <div class="card-header"><div class="dot"></div><div class="card-name">石・セラミック</div></div>
+      <div class="card-formula">SiO₂, CaCO₃, NaCl, Al₂O₃ …</div>
+      <div class="card-bond">イオン結合 / 共有結合</div>
+      <div class="card-desc">2種以上の元素がイオンまたは共有結合で規則的に並ぶ結晶。電子は固定されており動けない。</div>
+      <div class="card-props">
+        <span class="prop">硬い</span>
+        <span class="prop">脆い</span>
+        <span class="prop">高融点</span>
+        <span class="prop">電気を通さない</span>
+      </div>
+    </div>
+
+    <div class="card glass">
+      <div class="card-header"><div class="dot"></div><div class="card-name">ガラス</div></div>
+      <div class="card-formula">SiO₂（非晶質）</div>
+      <div class="card-bond">共有結合（無秩序）</div>
+      <div class="card-desc">石英と同じSiO₂だが、溶融状態から急冷されて結晶になれなかった。Si-O 網目がランダムに固まった「固体の液体」。</div>
+      <div class="card-props">
+        <span class="prop">透明</span>
+        <span class="prop">硬いが脆い</span>
+        <span class="prop">電気を通さない</span>
+        <span class="prop">非晶質</span>
+      </div>
+    </div>
+
+    <div class="card plastic">
+      <div class="card-header"><div class="dot"></div><div class="card-name">プラスチック</div></div>
+      <div class="card-formula">C, H（+ O, N, Cl …）</div>
+      <div class="card-bond">共有結合（ポリマー鎖）</div>
+      <div class="card-desc">炭素の長い鎖（ポリマー）が絡み合う。鎖内の結合は強いが、鎖同士の引力は弱いので熱で軟らかくなる。</div>
+      <div class="card-props">
+        <span class="prop">軽い</span>
+        <span class="prop">柔軟</span>
+        <span class="prop">低融点</span>
+        <span class="prop">電気を通さない</span>
+      </div>
+    </div>
+
+    <div class="card diamond">
+      <div class="card-header"><div class="dot"></div><div class="card-name">ダイヤモンド</div></div>
+      <div class="card-formula">C のみ</div>
+      <div class="card-bond">共有結合（3D網目）</div>
+      <div class="card-desc">炭素が4方向に共有結合して3D網目を作る。全電子が結合に使われ、どこにも「弱い部分」がない。</div>
+      <div class="card-props">
+        <span class="prop">最硬物質</span>
+        <span class="prop">透明</span>
+        <span class="prop">電気を通さない</span>
+        <span class="prop">高融点</span>
+      </div>
+    </div>
+
+    <div class="card graphite">
+      <div class="card-header"><div class="dot"></div><div class="card-name">黒鉛（グラファイト）</div></div>
+      <div class="card-formula">C のみ</div>
+      <div class="card-bond">共有結合＋分子間力</div>
+      <div class="card-desc">炭素が平面3方向に結合して六角形シートを作る。余った電子が層内を自由に動く。層間は弱い力だけ。</div>
+      <div class="card-props">
+        <span class="prop">柔らかい</span>
+        <span class="prop">黒い</span>
+        <span class="prop">電気を通す</span>
+        <span class="prop">層状はがれる</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ② 一覧表 -->
+<div class="section" id="table">
+  <div class="section-title">素材比較表</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>素材</th>
+          <th>主な元素</th>
+          <th>結合</th>
+          <th>構造</th>
+          <th>電気</th>
+          <th>硬さ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--metal);font-weight:700">金属</td>
+          <td>Fe, Al, Cu, Na …</td>
+          <td><span class="tag" style="background:var(--metal-bg);color:var(--metal)">金属結合</span></td>
+          <td>陽イオン結晶＋自由電子の海</td>
+          <td>◎ 通す</td>
+          <td>中〜高（種類による）</td>
+        </tr>
+        <tr>
+          <td style="color:var(--stone);font-weight:700">石・鉱物</td>
+          <td>Si+O, Ca+C+O, Na+Cl …</td>
+          <td><span class="tag" style="background:var(--stone-bg);color:var(--stone)">イオン/共有</span></td>
+          <td>規則的なイオン結晶</td>
+          <td>✗ 通さない</td>
+          <td>高・脆い</td>
+        </tr>
+        <tr>
+          <td style="color:var(--glass);font-weight:700">ガラス</td>
+          <td>Si+O（SiO₂）</td>
+          <td><span class="tag" style="background:var(--glass-bg);color:var(--glass)">共有結合</span></td>
+          <td>Si-O ランダム網目（非晶質）</td>
+          <td>✗ 通さない</td>
+          <td>高・脆い</td>
+        </tr>
+        <tr>
+          <td style="color:var(--plastic);font-weight:700">プラスチック</td>
+          <td>C+H（+O, N …）</td>
+          <td><span class="tag" style="background:var(--plastic-bg);color:var(--plastic)">共有結合</span></td>
+          <td>ポリマー鎖が絡み合う</td>
+          <td>✗ 通さない</td>
+          <td>低〜中・柔軟</td>
+        </tr>
+        <tr>
+          <td style="color:var(--diamond);font-weight:700">ダイヤモンド</td>
+          <td>C のみ</td>
+          <td><span class="tag" style="background:var(--diamond-bg);color:var(--diamond)">共有結合</span></td>
+          <td>C が4方向に3D網目結晶</td>
+          <td>✗ 通さない</td>
+          <td>最高・脆い</td>
+        </tr>
+        <tr>
+          <td style="color:var(--graphite);font-weight:700">黒鉛</td>
+          <td>C のみ</td>
+          <td><span class="tag" style="background:var(--graphite-bg);color:var(--graphite)">共有+分子間力</span></td>
+          <td>六角形シートが積層</td>
+          <td>○ 通す（層内）</td>
+          <td>低・層がはがれる</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-title" style="margin-top:1.5rem">石の具体例</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>名前</th><th>化学式</th><th>元素</th><th>特記</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>水晶・石英</td><td style="font-family:'Space Mono',monospace;font-size:11px">SiO₂</td><td>Si + O</td><td>ガラスと同じ組成、結晶か否かの違い</td></tr>
+        <tr><td>石灰石</td><td style="font-family:'Space Mono',monospace;font-size:11px">CaCO₃</td><td>Ca + C + O</td><td>貝殻・サンゴも同じ成分</td></tr>
+        <tr><td>岩塩</td><td style="font-family:'Space Mono',monospace;font-size:11px">NaCl</td><td>Na + Cl</td><td>食塩と同じ、典型的イオン結晶</td></tr>
+        <tr><td>コランダム</td><td style="font-family:'Space Mono',monospace;font-size:11px">Al₂O₃</td><td>Al + O</td><td>ルビー・サファイアは不純物で着色</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ③ 電子と金属 -->
+<div class="section" id="electrons">
+  <div class="section-title">金属結合できる元素の特徴</div>
+
+  <div class="electron-grid">
+    <div class="e-card">
+      <div class="e-title" style="color:var(--metal)">① 価電子が少ない（1〜3個）</div>
+      <div class="e-bar" style="background:linear-gradient(to right, var(--metal), transparent); width:30%"></div>
+      <div class="e-desc">最外殻の電子が少ないほど原子核との引力が弱く、電子が「逃げやすい」。Na=1個、Mg=2個、Al=3個。</div>
+    </div>
+    <div class="e-card">
+      <div class="e-title" style="color:var(--metal)">② イオン化エネルギーが低い</div>
+      <div class="e-bar" style="background:linear-gradient(to right, var(--metal), transparent); width:40%"></div>
+      <div class="e-desc">電子を1個引き剥がすのに必要なエネルギーが小さい。電子を放出するコストが低い。</div>
+    </div>
+    <div class="e-card">
+      <div class="e-title" style="color:var(--metal)">③ 電気陰性度が低い</div>
+      <div class="e-bar" style="background:linear-gradient(to right, var(--metal), transparent); width:25%"></div>
+      <div class="e-desc">電子を引き寄せる力が弱い。電子を抱え込もうとしないので、自由電子の海に放出できる。</div>
+    </div>
+    <div class="e-card">
+      <div class="e-title" style="color:var(--metal)">④ 周期表の左側・下側</div>
+      <div class="e-bar" style="background:linear-gradient(to right, var(--metal), transparent); width:60%"></div>
+      <div class="e-desc">周期表の左下ほど金属的。右上（F, O など）は電子を奪いたい側なので非金属になる。</div>
+    </div>
+  </div>
+
+  <div class="insight" style="border-color:var(--metal)">
+    <strong style="color:var(--metal)">核心</strong>
+    「金属か否か」は元素の固有の性質というより、<strong style="font-weight:700">電子が自由に動ける状態かどうか</strong>という話。圧力・温度・結合相手が変われば、非金属元素も金属的にふるまえる。
+  </div>
+
+  <div class="insight" style="border-color:var(--graphite)">
+    <strong style="color:var(--graphite)">炭素の例（ダイヤ vs 黒鉛）</strong>
+    同じ炭素（C）だけで、結合の方向が変わるだけで「電気を通さない最硬物質」と「電気を通す柔らかい素材」に分かれる。電子の自由度が決定的。
+  </div>
+</div>
+
+<!-- ④ 水素・金属水素 -->
+<div class="section" id="hydrogen">
+  <div class="section-title">水素と金属水素</div>
+
+  <div class="insight" style="border-color:var(--hydrogen)">
+    <strong style="color:var(--hydrogen)">リチウム（Li）は普通の条件で金属</strong>
+    価電子1個・低イオン化エネルギー。教科書通りの典型的金属。銀白色でナイフで切れるほど柔らかい。
+  </div>
+
+  <div class="insight" style="border-color:var(--hydrogen); margin-top:1rem">
+    <strong style="color:var(--hydrogen)">水素（H）は条件次第で金属になる</strong>
+    常温常圧では気体（非金属）。しかし超高圧をかけると電子が自由に動ける状態になり、金属水素になる。
+  </div>
+
+  <table class="h-table">
+    <thead>
+      <tr><th>条件</th><th>状態</th><th>備考</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>常温常圧</td>
+        <td>H₂ 気体（非金属）</td>
+        <td>共有結合した分子</td>
+      </tr>
+      <tr>
+        <td>数百万気圧</td>
+        <td style="color:var(--hydrogen);font-weight:700">金属水素</td>
+        <td>電子が自由に動ける状態に</td>
+      </tr>
+      <tr>
+        <td>木星内部</td>
+        <td style="color:var(--hydrogen);font-weight:700">金属水素（大量）</td>
+        <td>木星の強磁場の原因と考えられている</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ⑤ 核心の原理 -->
+<div class="section" id="insight">
+  <div class="section-title">すべてを貫く原理</div>
+
+  <div class="insight" style="border-color:var(--metal)">
+    <strong style="color:var(--metal)">原理① 「つながり方」が性質を決める</strong>
+    元素の種類よりも、原子の結合の本数・方向・種類が素材の性質を決める。ダイヤモンドと黒鉛はどちらも炭素だけ。ガラスと石英は同じSiO₂。
+  </div>
+
+  <div class="insight" style="border-color:var(--glass)">
+    <strong style="color:var(--glass)">原理② 電子の「居場所」がすべて</strong>
+    電子が自由に動ける → 金属的（電気・熱を通す、光沢）。電子が固定 → 絶縁体的（硬い、電気を通さない）。半導体はその中間。
+  </div>
+
+  <div class="insight" style="border-color:var(--stone)">
+    <strong style="color:var(--stone)">原理③ 「金属」は状態であって元素ではない</strong>
+    水素でさえ超高圧下では金属になる。「金属とは電子の状態である」——これが現代化学の見方。
+  </div>
+
+  <div class="insight" style="border-color:var(--plastic)">
+    <strong style="color:var(--plastic)">原理④ 構造の規則性が硬さを決める</strong>
+    結晶（規則的）→ 硬くて脆い。非晶質（ランダム）→ 脆さは同じでも光を散乱しない（透明）。ポリマー（鎖）→ 柔軟で変形できる。
+  </div>
+
+</div>
+
+</main>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
